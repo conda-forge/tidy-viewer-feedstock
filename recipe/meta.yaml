@@ -21,7 +21,9 @@ requirements:
 
 test:
   commands:
-    - tidy-viewer 2>&1 | grep -q "No such file or directory"  # [linux]
+    - tidy-viewer 2>&1 | grep -q "No such file or directory"  # [linux and x86_64]
+    - tidy-viewer 2>&1 | grep -q "Inappropriate ioctl for device"  # [linux and aarch4]
+    - tidy-viewer 2>&1 | grep -q "Inappropriate ioctl for device"  # [linux and ppc64le]
     - tidy-viewer 2>&1 | grep -q "Resource temporarily unavailable"  # [osx]
     - start /b tidy-viewer   # [win]
     - if %errorlevel% neq 0 exit %errorlevel%  # [win]

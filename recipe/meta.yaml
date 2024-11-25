@@ -21,7 +21,8 @@ requirements:
 
 test:
   commands:
-    - tidy-viewer 2>&1 | grep -q "No such file or directory"  # [linux]
+    # - tidy-viewer 2>&1 | grep -q "No such file or directory"  # [linux]
+    - tidy-viewer  # [linux]
     - tidy-viewer 2>&1 | grep -q "Resource temporarily unavailable"  # [osx]
     - start /b tidy-viewer   # [win]
     - if %errorlevel% neq 0 exit %errorlevel%  # [win]

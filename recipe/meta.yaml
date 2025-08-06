@@ -1,5 +1,5 @@
 {% set name = "tidy-viewer" %}
-{% set version = "1.5.2" %}
+{% set version = "1.6.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/alexhallam/tv/archive/{{ version }}.tar.gz
-  sha256: 3f950c1d05cc7fd5806a49a3f10a9437290e2b24ddf8402ec04d54c63d1a60d5
+  sha256: 512c0019879e4be16a991a4ff34f5791cafb0748fd9bb0b25410a97ec5e32950
 
 build:
   number: 0

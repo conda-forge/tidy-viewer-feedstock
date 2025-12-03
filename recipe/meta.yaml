@@ -1,8 +1,7 @@
-{% set name = "tidy-viewer" %}
 {% set version = "1.8.94" %}
 
 package:
-  name: {{ name|lower }}
+  name: tidy-viewer
   version: {{ version }}
 
 source:
@@ -10,7 +9,7 @@ source:
   sha256: c90a73ca48234799b6fbf5c96f3ef171e1fdd3031fb08aacb981021e191efde7
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:

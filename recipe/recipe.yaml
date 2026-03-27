@@ -1,0 +1,64 @@
+schema_version: 1
+
+context:
+  version: 1.8.94
+
+package:
+  name: tidy-viewer
+  version: ${{ version }}
+
+source:
+  url: https://github.com/alexhallam/tv/archive/${{ version }}.tar.gz
+  sha256: c90a73ca48234799b6fbf5c96f3ef171e1fdd3031fb08aacb981021e191efde7
+
+build:
+  number: 2
+  script:
+    env:
+      CARGO_PROFILE_RELEASE_STRIP: symbols
+      CARGO_PROFILE_RELEASE_LTO: fat
+    content:
+      - if: unix
+        then:
+          - cargo auditable install --locked --no-track --bins --root ${{ PREFIX }} --path tidy-viewer-cli
+        else:
+          - cargo auditable install --locked --no-track --bins --root %LIBRARY_PREFIX% --path tidy-viewer-cli
+      - cargo-bundle-licenses --format yaml --output ./THIRDPARTY.yml
+
+requirements:
+  build:
+    - ${{ compiler('rust') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - cargo-bundle-licenses
+    - cargo-auditable
+
+tests:
+  - script:
+      - if: linux and x86_64
+        then: tidy-viewer 2>&1 | grep -q "No such file or directory"
+      - if: linux and aarch4
+        then: tidy-viewer 2>&1 | grep -q "Inappropriate ioctl for device"
+      - if: linux and ppc64le
+        then: tidy-viewer 2>&1 | grep -q "Inappropriate ioctl for device"
+      - if: osx
+        then: tidy-viewer 2>&1 | grep -q "Resource temporarily unavailable"
+      - if: win
+        then: 
+          - start /b tidy-viewer
+          - if %errorlevel% neq 0 exit %errorlevel%
+          - taskkill /F /im tidy-viewer.exe
+          - if %errorlevel% neq 0 exit %errorlevel%
+
+about:
+  license: Unlicense
+  license_file:
+    - UNLICENSE
+    - THIRDPARTY.yml
+  summary: Tidy Viewer is a cross-platform CLI csv pretty printer that uses column styling to maximize viewer enjoyment
+  homepage: https://github.com/alexhallam/tv
+  repository: https://github.com/alexhallam/tv
+
+extra:
+  recipe-maintainers:
+    - danielnachun
